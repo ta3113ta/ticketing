@@ -1,7 +1,33 @@
 import "bootstrap/dist/css/bootstrap.css";
+import buildClient from "../api/build-client";
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+function AppComponent({ Component, pageProps, currentUser }) {
+  return (
+    <div>
+      <h1>Header! {currentUser.email}</h1>
+      <Component {...pageProps} />;
+    </div>
+  );
 }
 
-export default MyApp;
+AppComponent.getInitialProps = async (appContext) => {
+  try {
+    const client = buildClient(appContext.ctx);
+    const { data } = await client.get("/api/users/currentuser");
+
+    let pageProps;
+    if (appContext.Component.getInitialProps) {
+      pageProps = await appContext.Component.getInitialProps(appContext.ctx);
+    }
+
+    return {
+      pageProps,
+      ...data,
+    };
+  } catch (err) {
+    console.err(err);
+    return {};
+  }
+};
+
+export default AppComponent;
