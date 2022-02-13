@@ -1,6 +1,6 @@
 {
   "name": "@taburatickets/common",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "clean": "del ./build/*",
-    "build": "npm run clean && tsc"
+    "build": "npm run clean && tsc",
+    "pub": "npm version patch && npm publish"
   },
   "keywords": [],
   "author": "",
